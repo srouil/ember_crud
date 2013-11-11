@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ember CRUD</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<script type="text/x-handlebars">
+    <div class="container">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <ul class="nav navbar-nav">
+                <li>{{#link-to "index" activeClass="active"}}Home{{/link-to}}</li>
+                <li>{{#link-to "users" activeClass="active"}}Users{{/link-to}}</li>
+                <li>{{#link-to "events" activeClass="active"}}Events{{/link-to}}</li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>{{#link-to "admin" activeClass="active"}}Administration{{/link-to}}</li>
+                <p class="navbar-text">Signed in as <a href="#" class="navbar-link">Samuel Rouiller</a></p>
+            </ul>
+        </nav>
+
+        {{ outlet }}
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="index">
+    <div class="well">
+        <p>This is index home</p>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="users">
+    {{ outlet }}
+</script>
+
+<script type="text/x-handlebars" id="users/index">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birth date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each model}}
+            <tr {{ action 'view' this }}>
+                <td>{{ first }}</td>
+                <td>{{ last }}</td>
+                <td>{{ format-date birthDate }}</td>
+                <td>
+                    <i {{ action 'delete' this }} class="fa fa-trash-o fa-lg"></i>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+    {{#link-to "users.new" class="btn btn-primary"}}New user{{/link-to}}
+</script>
+
+
+<script type="text/x-handlebars" id="users/view">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">First name</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{ first }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Last name</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{ last }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Birth date</label>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{ format-date birthDate format='DD MMMM YYYY'}}</p>
+            </div>
+        </div>
+        {{#link-to "users.edit" this class="btn btn-primary"}}Edit{{/link-to}}
+        <button {{action 'delete' }} class="btn btn-default">Delete</button>
+    </form>
+</script>
+
+<script type="text/x-handlebars" id="users/edit">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="first" class="col-sm-2 control-label">First name</label>
+            <div class="col-sm-10">
+                {{input type="text" value=first class="form-control" id="first"}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="first" class="col-sm-2 control-label">Last name</label>
+            <div class="col-sm-10">
+                {{input type="text" value=last class="form-control" id="last"}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="first" class="col-sm-2 control-label">Birth date</label>
+            <div class="col-sm-10">
+                {{input type="date" value=birthDate class="form-control" id="birthDate"}}
+            </div>
+        </div>
+        <button {{action 'save' }} class="btn btn-primary">Save</button>
+        <button {{action 'cancel' }} class="btn btn-default">Cancel</button>
+    </form>
+</script>
+
+<script type="text/x-handlebars" id="users/new">
+    <form class="form-horizontal" role="form" {{action save on="submit"}}>
+        <div class="form-group">
+            <label for="first" class="col-sm-2 control-label">First name</label>
+            <div class="col-sm-10">
+                {{input type="text" value=first class="form-control" id="first"}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="first" class="col-sm-2 control-label">Last name</label>
+            <div class="col-sm-10">
+                {{input type="text" value=last class="form-control" id="last"}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="first" class="col-sm-2 control-label">Birth date</label>
+            <div class="col-sm-10">
+                {{input type="date" value=birthDate class="form-control" id="birthDate"}}
+            </div>
+        </div>
+        <button {{action 'save' }} class="btn btn-primary">Save</button>
+        <button {{action 'cancel' }} class="btn btn-default">Cancel</button>
+    </form></script>
+
+<script type="text/x-handlebars" id="events">
+    <div class="well">
+        <p>events</p>
+    </div>
+    {{ outlet }}
+</script>
+
+<script type="text/x-handlebars" id="events/index">
+    <div class="well">
+        <p>events index</p>
+    </div>
+</script>
+
+<script type="text/x-handlebars" id="admin">
+    <div class="well">
+        <p>This is admin</p>
+    </div>
+</script>
+
+
+<script src="js/libs/jquery-1.9.1.js"></script>
+<script src="js/libs/handlebars-1.0.0.js"></script>
+<script src="js/libs/ember-1.1.2.js"></script>
+<script src="js/libs/ember-data.js"></script>
+<script src="js/libs/localstorage_adapter.js"></script>
+<script src="js/libs/moment-with-langs.js"></script>
+<script src="js/application.js"></script>
+<script src="js/router.js"></script>
+<script src="js/models/user.js"></script>
+<script src="js/views/format_date_view.js"></script>
+<script src="js/controllers/users_new_controller.js"></script>
+<script src="js/controllers/users_edit_controller.js"></script>
+<script src="js/controllers/users_index_controller.js"></script>
+<script src="js/controllers/users_view_controller.js"></script>
+</body>
+</html>
